@@ -1,4 +1,4 @@
-const CACHE = "atelier-shell-v1";
+const CACHE = "atelier-shell-v2";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
@@ -11,6 +11,14 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const request = event.request;
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
+  const isDocument = request.mode === "navigate" || new URL(request.url).pathname.endsWith("/index.html");
+  if (isDocument) {
+    event.respondWith(fetch(request).then(response => {
+      if (response.ok) caches.open(CACHE).then(cache => cache.put(request, response.clone()));
+      return response;
+    }).catch(() => caches.match(request).then(cached => cached || caches.match("./index.html"))));
+    return;
+  }
   event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
     if (response.ok) {
       const copy = response.clone();
