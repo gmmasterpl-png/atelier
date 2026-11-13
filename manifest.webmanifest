@@ -1,0 +1,20 @@
+{
+  "id": "/atelier/",
+  "name": "Atelier — Twoja pracownia pisarska",
+  "short_name": "Atelier",
+  "description": "Prywatna pracownia pisarska do tworzenia świata, postaci i historii.",
+  "lang": "pl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f1eb",
+  "theme_color": "#282923",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
