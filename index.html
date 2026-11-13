@@ -78,13 +78,27 @@ textarea.field{min-height:110px}
 <aside class="sidebar"><div class="brand">ATELIER<small>TWOJA PRACOWNIA PISARSKA</small></div><nav class="navwrap" id="nav">
 <button class="nav active" data-page="home"><span>⌂</span>Pulpit</button><button class="nav" data-page="Miejsca"><span>⌖</span>Miejsca</button><button class="nav" data-page="Postacie"><span>♙</span>Postacie</button><button class="nav" data-page="Frakcje"><span>⚑</span>Frakcje</button><button class="nav" data-page="Wydarzenia"><span>◷</span>Wydarzenia</button><button class="nav" data-page="Przedmioty"><span>◇</span>Przedmioty</button><button class="nav" data-page="Zwierzęta"><span>♧</span>Zwierzęta</button><button class="nav" data-page="Język"><span>❝</span>Język</button><button class="nav" data-page="Rozdziały"><span>▤</span>Rozdziały</button><button class="nav" data-page="Powiązania"><span>⌘</span>Powiązania</button><button class="nav" data-page="Oś czasu"><span>↝</span>Oś czasu</button>
 </nav><div class="sidebottom">MOJA KSIĄŻKA<b id="side-title">Nowa opowieść</b></div></aside>
-<main class="main"><div class="top"><div><div class="eyebrow">PRYWATNA PRACOWNIA / <span id="crumb">PULPIT</span></div><div class="muted" id="status">Wszystkie Twoje pomysły w jednym miejscu</div></div><div class="top-actions"><button class="ghost" id="global-search-btn">⌕ Szukaj</button><button class="ghost" id="export">↓ Eksport</button><button class="ghost" id="print">Drukuj / PDF</button></div></div>
+<main class="main"><div class="top"><div><div class="eyebrow">PRYWATNA PRACOWNIA / <span id="crumb">PULPIT</span></div><div class="muted" id="status">Wszystkie Twoje pomysły w jednym miejscu</div></div><div class="top-actions"><button class="ghost" id="cloud-panel-open">☁ Synchronizacja</button><button class="ghost" id="global-search-btn">⌕ Szukaj</button><button class="ghost" id="export">↓ Eksport</button><button class="ghost" id="print">Drukuj / PDF</button></div></div>
+
+<div id="cloud-panel" class="panel hidden" style="margin:-12px 0 22px;max-width:620px">
+  <div class="row" style="justify-content:space-between"><div><div class="eyebrow">ATELIER W CHMURZE</div><h2 style="margin:6px 0">Synchronizacja między urządzeniami</h2></div><button class="ghost" id="cloud-close" type="button">Zamknij</button></div>
+  <p class="muted">Zaloguj się na tym samym koncie na komputerze i telefonie. Twoje wpisy będą zapisywane w bezpiecznej bazie danych.</p>
+  <div id="cloud-auth-fields">
+    <label>Adres e-mail</label><input class="field" id="cloud-email" type="email" autocomplete="email" placeholder="twoj@email.com">
+    <label>Hasło</label><input class="field" id="cloud-password" type="password" autocomplete="current-password" placeholder="Minimum 6 znaków">
+    <div class="row" style="margin-top:13px"><button class="btn" id="cloud-login" type="button">Zaloguj się</button><button class="ghost" id="cloud-signup" type="button">Utwórz konto</button></div>
+  </div>
+  <div id="cloud-account" class="hidden"><div class="notice" id="cloud-account-label"></div><button class="ghost danger" id="cloud-logout" type="button">Wyloguj</button><button class="ghost" id="cloud-now" type="button">Synchronizuj teraz</button></div>
+  <p class="muted" id="cloud-message" role="status" aria-live="polite" style="margin-bottom:0">Dane lokalne pozostają dostępne również bez logowania.</p>
+</div>
 <section id="home"><div class="eyebrow">WITAJ W SWOIM ŚWIECIE</div><h1>Każda historia zaczyna się od pomysłu.</h1><p class="muted" style="max-width:650px;margin-bottom:24px">Buduj świat, poznawaj bohaterów, porządkuj fabułę i pisz rozdziały. Twoja prywatna pracownia pisarska.</p><div class="panel" style="margin-bottom:16px"><div class="eyebrow">TYTUŁ TWOJEJ KSIĄŻKI</div><input id="booktitle" class="field" style="font:24px Georgia;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent" placeholder="Nadaj swojej książce tytuł…"><label>Opis / krótki zarys książki</label><textarea id="bookdesc" class="field" placeholder="O czym będzie Twoja historia?"></textarea></div><div class="grid" id="stats"></div><h2 style="margin:28px 0 12px">Twoja pracownia</h2><div class="quick" id="quick"></div><div class="notice">Wskazówka: zacznij od opisania głównych postaci i frakcji. Następnie połącz je z miejscami oraz wydarzeniami, aby łatwiej kontrolować spójność świata.</div></section>
 <section id="category" class="hidden"><div class="row" style="justify-content:space-between"><div><div class="eyebrow" id="cat-eyebrow">BIBLIOTEKA ŚWIATA</div><h1 id="cat-title">Miejsca</h1><p class="muted" id="cat-desc"></p></div><button class="btn" id="add">+ Dodaj nowy wpis</button></div><div class="grid" style="margin:20px 0"><div class="panel"><div class="eyebrow">WPISY W KATEGORII</div><div class="stat" id="count">0</div></div><div class="panel"><div class="eyebrow">WSZYSTKIE ELEMENTY</div><div class="stat" id="total">0</div></div><div class="panel"><div class="eyebrow">AKTYWNA SEKCJA</div><div class="stat" id="active-label" style="font-size:21px">Miejsca</div></div></div><div class="split"><div class="panel"><input class="field" id="search" placeholder="⌕ Szukaj wpisów w tej kategorii…"><div id="entries"></div></div><div class="panel" id="editpanel"><div class="eyebrow">KARTA WPISU</div><h2 id="form-title" style="margin-top:8px">Nowy wpis</h2><div id="fields"></div><div class="row" style="margin-top:17px"><button class="btn" id="save">Zapisz wpis</button><button class="ghost" id="new">Wyczyść</button><button class="ghost danger hidden" id="delete">Usuń</button></div></div></div></section>
 <section id="relations" class="hidden"><div class="eyebrow">MAPA ŚWIATA</div><h1>Powiązania</h1><p class="muted">Łącz postacie, miejsca, wydarzenia i przedmioty. Zapisz, jak elementy Twojej historii wpływają na siebie.</p><div class="panel" style="max-width:720px;margin-top:20px"><div class="row"><div style="flex:1;min-width:130px"><label>Element A</label><select class="field" id="rel-a"></select></div><div style="flex:1;min-width:130px"><label>Rodzaj relacji</label><input class="field" id="rel-type" placeholder="np. jest członkiem, mieszka w"></div><div style="flex:1;min-width:130px"><label>Element B</label><select class="field" id="rel-b"></select></div></div><label>Notatka (opcjonalnie)</label><textarea class="field" id="rel-note" placeholder="Dodatkowy kontekst relacji…"></textarea><button class="btn" id="rel-add" style="margin-top:12px">Dodaj powiązanie</button></div><h2 style="margin-top:25px">Zapisane relacje</h2><div class="panel" id="rel-list"></div></section>
 <section id="timeline" class="hidden"><div class="eyebrow">CHRONOLOGIA FABUŁY</div><h1>Oś czasu</h1><p class="muted">Wydarzenia uporządkowane według daty lub kolejności w historii.</p><div class="panel" style="margin-top:20px" id="timeline-list"></div></section>
 <section id="searchpage" class="hidden"><div class="eyebrow">PRZESZUKAJ CAŁĄ PRACOWNIĘ</div><h1>Wyszukiwarka</h1><input class="field" id="global-search" placeholder="Wpisz nazwę, słowo lub fragment opisu…" style="max-width:650px;margin:12px 0 20px"><div id="global-results"></div></section>
 </main></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id)};
@@ -104,7 +118,7 @@ Object.keys(defs).forEach(function(k){data[k]=[]});
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
 var all=function(){return Object.keys(data).reduce(function(a,k){return a.concat(data[k].map(function(x){return Object.assign({cat:k},x)}))},[])};
 var total=function(){return all().length};
-function persist(){try{localStorage.setItem('atelier-full-v2',JSON.stringify({data:data,rels:rels,colors:colors,factions:factions,title:$('booktitle').value,desc:$('bookdesc').value}));$('status').textContent='Zapisano automatycznie · '+new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'})}catch(e){$('status').textContent='Nie udało się zapisać — wyeksportuj kopię danych.'}}
+function persist(){try{localStorage.setItem('atelier-full-v2',JSON.stringify({data:data,rels:rels,colors:colors,factions:factions,title:$('booktitle').value,desc:$('bookdesc').value}));$('status').textContent='Zapisano automatycznie · '+new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'});scheduleCloudSync()}catch(e){$('status').textContent='Nie udało się zapisać — wyeksportuj kopię danych.'}}
 try{var saved=JSON.parse(localStorage.getItem('atelier-full-v2'));if(saved){data=Object.assign(data,saved.data||{});rels=saved.rels||[];colors=saved.colors||{};factions=saved.factions||{};$('booktitle').value=saved.title||'';$('bookdesc').value=saved.desc||''}}catch(e){}
 $('side-title').textContent=$('booktitle').value||'Nowa opowieść';
 $('booktitle').oninput=function(){$('side-title').textContent=this.value||'Nowa opowieść';persist()};$('bookdesc').oninput=persist;
@@ -118,11 +132,131 @@ function save(){var vals=defs[current].fields.map(function(f,i){return $('fields
 $('add').onclick=function(){clearForm();$('editpanel').scrollIntoView({behavior:'smooth',block:'nearest'})};$('save').onclick=save;$('new').onclick=clearForm;$('search').oninput=render;$('delete').onclick=function(){if(selected&&confirm('Usunąć ten wpis?')){data[current]=data[current].filter(function(x){return x.id!==selected});delete factions[selected];delete colors[selected];rels=rels.filter(function(r){return r.a!==selected&&r.b!==selected});persist();render();clearForm()}};
 function label(id){var x=all().find(function(a){return a.id===id});return x?x.values[0]+' ('+x.cat+')':'Usunięty element'}
 function renderRelations(){var opts=all().map(function(x){return '<option value="'+x.id+'">'+esc(x.values[0])+' — '+x.cat+'</option>'}).join('');$('rel-a').innerHTML=opts;$('rel-b').innerHTML=opts;$('rel-list').innerHTML=rels.length?rels.map(function(r,i){return '<div class="entry"><span>'+esc(label(r.a))+' <span class="tag">'+esc(r.type)+'</span> '+esc(label(r.b))+(r.note?'<div class="muted">'+esc(r.note)+'</div>':'')+'</span><button class="ghost danger" data-delrel="'+i+'">Usuń</button></div>'}).join(''):'<div class="empty">Nie dodano jeszcze żadnych powiązań.</div>';$('rel-list').querySelectorAll('[data-delrel]').forEach(function(b){b.onclick=function(){rels.splice(+b.dataset.delrel,1);persist();renderRelations()}})}
-$('rel-add').onclick=function(){var a=$('rel-a').value,b=$('rel-b').value,type=$('rel-type').value.trim();if(!a||!b||a===b||!type)return alert('Wybierz dwa różne elementy i opisz relację.');rels.push({a:a,b:b,type:type,note:$('rel-note').value.trim()});$('rel-type').value='';$('rel-note').value='';persist();renderRelations()};
+$('rel-add').onclick=function(){var a=$('rel-a').value,b=$('rel-b').value,type=$('rel-type').value.trim();if(!a||!b||a===b||!type)return alert('Wybierz dwa różne elementy i opisz relację.');rels.push({id:'rel-'+Date.now()+'-'+Math.random().toString(16).slice(2),a:a,b:b,type:type,note:$('rel-note').value.trim()});$('rel-type').value='';$('rel-note').value='';persist();renderRelations()};
 function renderTimeline(){var ev=data.Wydarzenia.slice().sort(function(a,b){return (a.values[1]||'').localeCompare(b.values[1]||'','pl',{numeric:true})});$('timeline-list').innerHTML=ev.length?'<div class="timeline">'+ev.map(function(e){return '<div class="event"><div class="eyebrow">'+esc(e.values[1]||'Bez daty')+'</div><h3>'+esc(e.values[0])+'</h3><div class="muted">'+esc(e.values[2]||'')+' · '+esc(e.values[3]||'')+'</div><p class="muted">'+esc(e.values[4]||'')+'</p></div>'}).join('')+'</div>':'<div class="empty">Dodaj wydarzenia w zakładce „Wydarzenia”, aby zbudować chronologię.</div>'}
 function globalSearch(){var q=$('global-search').value.toLowerCase();var found=all().filter(function(x){return (x.cat+' '+x.values.join(' ')).toLowerCase().includes(q)});$('global-results').innerHTML=q?found.map(function(x){return '<div class="entry" data-open="'+x.cat+'" data-id="'+x.id+'"><div><strong>'+esc(x.values[0])+'</strong><div class="muted">'+x.cat+' · '+esc(x.values.slice(1).filter(Boolean).join(' · ').slice(0,130))+'</div></div>→</div>'}).join('')||'<div class="empty">Brak wyników.</div>':'<div class="muted">Wpisz szukaną frazę.</div>';$('global-results').querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){nav(b.dataset.open);load(b.dataset.id)}})}
 $('global-search-btn').onclick=function(){nav('Szukaj')};$('global-search').oninput=globalSearch;document.querySelectorAll('.nav').forEach(function(b){b.onclick=function(){nav(b.dataset.page)}});
 $('export').onclick=function(){var payload={tytul:$('booktitle').value,opis:$('bookdesc').value,data:data,relacje:rels,kolory:colors,przynaleznosci:factions};var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='atelier-moja-ksiazka.json';a.click();URL.revokeObjectURL(a.href)};$('print').onclick=function(){window.print()};home();
 })();
+
+/* Cloud sync: Supabase Auth + per-user RLS-protected Atelier records. */
+var cloudClient=null,cloudUser=null,cloudWorldId=null,cloudTimer=null,cloudBusy=false,cloudApplying=false,cloudReady=false,cloudChannel=null;
+function cloudMessage(message){var el=$('cloud-message');if(el)el.textContent=message;}
+function cloudPanel(){ $('cloud-panel').classList.toggle('hidden'); }
+$('cloud-close').onclick=function(){$('cloud-panel').classList.add('hidden')};
+$('cloud-panel-open').onclick=cloudPanel;
+function cloudSetAccount(user){
+  cloudUser=user||null;
+  $('cloud-auth-fields').classList.toggle('hidden',!!user);
+  $('cloud-account').classList.toggle('hidden',!user);
+  $('cloud-account-label').textContent=user?'Zalogowano jako: '+user.email:'';
+}
+function cloudClientInit(){
+  if(!window.supabase||!window.supabase.createClient){cloudMessage('Nie udało się załadować modułu synchronizacji. Sprawdź połączenie z internetem.');return;}
+  cloudClient=window.supabase.createClient('https://nbaxtwzndfjjpwbcoviy.supabase.co','sb_publishable_RAQmeU8GUqUMZAJqhwoUbQ_7gIFBRhj',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  cloudClient.auth.onAuthStateChange(function(event,session){
+    cloudUser=session&&session.user?session.user:null;
+    cloudSetAccount(cloudUser);
+    if(cloudUser){setTimeout(function(){cloudLoad(false)},0);}
+    else{cloudReady=false;cloudWorldId=null;if(cloudChannel){cloudClient.removeChannel(cloudChannel);cloudChannel=null;}cloudMessage('Wylogowano. Dane zapisane lokalnie nadal są dostępne.');}
+  });
+  cloudClient.auth.getSession().then(function(result){
+    if(result.error)throw result.error;
+    if(result.data.session){cloudUser=result.data.session.user;cloudSetAccount(cloudUser);cloudLoad(false);}
+    else{cloudSetAccount(null);cloudMessage('Zaloguj się, aby synchronizować dane między urządzeniami.');}
+  }).catch(function(error){cloudMessage('Błąd sesji: '+error.message)});
+}
+async function cloudLogin(signup){
+  var email=$('cloud-email').value.trim(),password=$('cloud-password').value;
+  if(!email||!password){cloudMessage('Wpisz adres e-mail i hasło.');return;}
+  if(password.length<6){cloudMessage('Hasło musi mieć co najmniej 6 znaków.');return;}
+  cloudMessage(signup?'Tworzenie konta…':'Logowanie…');
+  var result=signup?await cloudClient.auth.signUp({email:email,password:password}):await cloudClient.auth.signInWithPassword({email:email,password:password});
+  if(result.error){cloudMessage('Nie udało się: '+result.error.message);return;}
+  if(signup&&!result.data.session){cloudMessage('Konto utworzone. Sprawdź pocztę i potwierdź adres e-mail, a następnie zaloguj się.');return;}
+  if(result.data.user){cloudSetAccount(result.data.user);cloudLoad(false);}
+}
+$('cloud-login').onclick=function(){cloudLogin(false)};
+$('cloud-signup').onclick=function(){cloudLogin(true)};
+$('cloud-logout').onclick=async function(){var r=await cloudClient.auth.signOut();if(r.error)cloudMessage('Błąd wylogowania: '+r.error.message);};
+function cloudSubscribe(){
+  if(cloudChannel)cloudClient.removeChannel(cloudChannel);
+  cloudChannel=cloudClient.channel('atelier-world-'+cloudWorldId)
+    .on('postgres_changes',{event:'*',schema:'public',table:'atelier_entries',filter:'book_id=eq.'+cloudWorldId},function(){if(!cloudBusy&&!cloudApplying)cloudLoad(true);})
+    .on('postgres_changes',{event:'*',schema:'public',table:'atelier_app_relations',filter:'book_id=eq.'+cloudWorldId},function(){if(!cloudBusy&&!cloudApplying)cloudLoad(true);})
+    .on('postgres_changes',{event:'*',schema:'public',table:'atelier_worlds',filter:'id=eq.'+cloudWorldId},function(){if(!cloudBusy&&!cloudApplying)cloudLoad(true);})
+    .subscribe();
+}
+async function cloudLoad(silent){
+  if(!cloudClient||!cloudUser||cloudBusy)return;
+  cloudBusy=true;cloudApplying=true;
+  try{
+    var wr=await cloudClient.from('atelier_worlds').select('id,name,description,settings').eq('owner_id',cloudUser.id).order('created_at',{ascending:true}).limit(1);
+    if(wr.error)throw wr.error;
+    var world=wr.data&&wr.data[0];
+    if(!world){
+      var made=await cloudClient.from('atelier_worlds').insert({owner_id:cloudUser.id,name:$('booktitle').value.trim()||'Nowa opowieść',description:$('bookdesc').value||'',genre:'fantasy',settings:{colors:colors,factions:factions}}).select('id').single();
+      if(made.error)throw made.error;
+      cloudWorldId=made.data.id;
+      cloudReady=true;
+      if(total()>0){await cloudPush();cloudMessage('Pierwsza synchronizacja zakończona. Twoje lokalne wpisy trafiły do chmury.');}
+      else{cloudMessage('Połączono z chmurą. Zapisuj wpisy, a pojawią się na pozostałych urządzeniach.');}
+      cloudSubscribe();return;
+    }
+    cloudWorldId=world.id;
+    var er=await cloudClient.from('atelier_entries').select('id,category,values,metadata').eq('book_id',cloudWorldId);
+    if(er.error)throw er.error;
+    var rr=await cloudClient.from('atelier_app_relations').select('id,a,b,relation_type,note').eq('book_id',cloudWorldId);
+    if(rr.error)throw rr.error;
+    if((er.data||[]).length===0&&total()>0){
+      cloudReady=true;await cloudPush();cloudMessage('Pierwsza synchronizacja zakończona. Twoje lokalne wpisy trafiły do chmury.');
+    }else{
+      cloudApplying=true;
+      Object.keys(defs).forEach(function(k){data[k]=[];});
+      (er.data||[]).forEach(function(row){if(data[row.category]){data[row.category].push({id:row.id,values:Array.isArray(row.values)?row.values:[]});var m=row.metadata||{};if(m.color)colors[row.id]=m.color;if(m.factionId)factions[row.id]=m.factionId;}});
+      rels=(rr.data||[]).map(function(r){return{id:r.id,a:r.a,b:r.b,type:r.relation_type,note:r.note||''};});
+      var settings=world.settings||{};if(settings.colors)colors=Object.assign({},settings.colors,colors);if(settings.factions)factions=Object.assign({},settings.factions,factions);
+      $('booktitle').value=world.name||'';$('bookdesc').value=world.description||'';$('side-title').textContent=world.name||'Nowa opowieść';
+      localStorage.setItem('atelier-full-v2',JSON.stringify({data:data,rels:rels,colors:colors,factions:factions,title:$('booktitle').value,desc:$('bookdesc').value}));
+      if(!$('home').classList.contains('hidden'))home();
+      if(!$('category').classList.contains('hidden')){render();clearForm();}
+      if(!$('relations').classList.contains('hidden'))renderRelations();
+      if(!$('timeline').classList.contains('hidden'))renderTimeline();
+      if(!$('searchpage').classList.contains('hidden'))globalSearch();
+      cloudReady=true;cloudMessage(silent?'Odebrano zmiany z innego urządzenia.':'Połączono z chmurą. Pobrano najnowsze dane.');
+    }
+    cloudSubscribe();
+  }catch(error){cloudMessage('Synchronizacja nie powiodła się: '+error.message);}
+  finally{cloudApplying=false;cloudBusy=false;}
+}
+async function cloudPush(){
+  if(!cloudClient||!cloudUser||!cloudWorldId||!cloudReady||cloudBusy&& !cloudApplying)return;
+  cloudBusy=true;
+  try{
+    var worldUpdate=await cloudClient.from('atelier_worlds').update({name:$('booktitle').value.trim()||'Nowa opowieść',description:$('bookdesc').value||'',settings:{colors:colors,factions:factions}}).eq('id',cloudWorldId);
+    if(worldUpdate.error)throw worldUpdate.error;
+    var entries=all().map(function(x){return{book_id:cloudWorldId,id:x.id,category:x.cat,values:x.values,metadata:{color:colors[x.id]||null,factionId:factions[x.id]||null}};});
+    if(entries.length){var up=await cloudClient.from('atelier_entries').upsert(entries,{onConflict:'book_id,id'});if(up.error)throw up.error;}
+    var old=await cloudClient.from('atelier_entries').select('id').eq('book_id',cloudWorldId);
+    if(old.error)throw old.error;
+    var keep=entries.map(function(x){return x.id;}),stale=(old.data||[]).map(function(x){return x.id;}).filter(function(id){return keep.indexOf(id)<0;});
+    if(stale.length){var del=await cloudClient.from('atelier_entries').delete().eq('book_id',cloudWorldId).in('id',stale);if(del.error)throw del.error;}
+    var relationRows=rels.map(function(r,i){return{id:r.id||('rel-'+i),book_id:cloudWorldId,a:r.a,b:r.b,relation_type:r.type,note:r.note||''};});
+    if(relationRows.length){var ru=await cloudClient.from('atelier_app_relations').upsert(relationRows,{onConflict:'id'});if(ru.error)throw ru.error;}
+    var oldR=await cloudClient.from('atelier_app_relations').select('id').eq('book_id',cloudWorldId);
+    if(oldR.error)throw oldR.error;
+    var keepR=relationRows.map(function(x){return x.id;}),staleR=(oldR.data||[]).map(function(x){return x.id;}).filter(function(id){return keepR.indexOf(id)<0;});
+    if(staleR.length){var dr=await cloudClient.from('atelier_app_relations').delete().eq('book_id',cloudWorldId).in('id',staleR);if(dr.error)throw dr.error;}
+    rels=relationRows.map(function(r){return{id:r.id,a:r.a,b:r.b,type:r.relation_type,note:r.note};});
+    cloudMessage('Zsynchronizowano · '+new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'}));
+  }catch(error){cloudMessage('Błąd zapisu w chmurze: '+error.message);}
+  finally{cloudBusy=false;}
+}
+function scheduleCloudSync(){if(!cloudUser||!cloudReady||cloudApplying)return;clearTimeout(cloudTimer);cloudTimer=setTimeout(function(){cloudPush();},900);}
+$('cloud-now').onclick=function(){cloudPush();};
+window.addEventListener('online',function(){if(cloudUser)cloudLoad(true);});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&cloudUser&&!cloudBusy)cloudLoad(true);});
+
+cloudClientInit();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
 </script></body></html>
