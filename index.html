@@ -1,12 +1,77 @@
 <!doctype html>
 <html lang="pl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#282923"><meta name="description" content="Atelier — prywatna pracownia pisarska do tworzenia świata, postaci i historii."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon.svg">
 <title>ATELIER — Twoja pracownia pisarska</title>
 <style>
 :root{--bg:#f5f1eb;--paper:#fffdfa;--ink:#292923;--muted:#827d73;--line:#e5ded4;--accent:#896348;--dark:#282923}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{background:var(--dark);color:#eee9df;padding:25px 16px;display:flex;flex-direction:column;min-height:100vh}.brand{text-align:center;font-size:25px;letter-spacing:5px;color:#e5c5a6}.brand small{display:block;font:9px Arial;letter-spacing:3px;color:#aaa;margin:7px 0 28px}.nav{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:11px 12px;border:0;border-radius:7px;background:none;color:#d1ccc2;font:13px Arial;margin:2px 0}.nav span{width:20px;color:#d2a981}.nav:hover,.nav.active{background:#514638;color:white}.sidebottom{margin-top:auto;border-top:1px solid #484943;padding:17px 7px 0;font:12px Arial;color:#aaa}.sidebottom b{display:block;color:#eee9df;font:16px Georgia;margin-top:8px}.main{padding:28px clamp(18px,4vw,55px);max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:17px;margin-bottom:30px}.eyebrow{font:10px Arial;letter-spacing:2px;color:var(--muted);text-transform:uppercase}.muted{color:var(--muted);font:12px/1.6 Arial}.top-actions,.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}h1{font-size:clamp(27px,4vw,38px);font-weight:normal;margin:8px 0}h2{font-size:22px;font-weight:normal;margin:0 0 12px}h3{font-size:17px;font-weight:normal;margin:0 0 8px}.btn{background:var(--accent);color:white;border:0;border-radius:5px;padding:10px 15px;font:12px Arial}.ghost{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:5px;padding:9px 12px;font:12px Arial}.danger{color:#a54c43}.panel{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:18px;box-shadow:0 8px 28px #3027190d}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.stat{font-size:30px;margin:9px 0 3px}.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.quick button{text-align:left;min-height:112px}.symbol{font-size:23px;color:var(--accent);margin-bottom:8px}.field{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:5px;background:#fffefa;color:var(--ink);font:13px Arial}textarea.field{min-height:90px;resize:vertical;line-height:1.6}label{display:block;font:11px Arial;color:var(--muted);margin:13px 0 6px}.split{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px}.entry{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 7px;border-bottom:1px solid var(--line);cursor:pointer}.entry:hover{background:#f8f4ee}.entry strong{font-weight:normal;font-size:16px}.hidden{display:none!important}.empty{text-align:center;padding:35px 10px;color:var(--muted);font:13px Arial}.swatches{display:flex;gap:8px;flex-wrap:wrap}.swatch{width:25px;height:25px;border-radius:50%;border:2px solid transparent}.swatch.selected{outline:2px solid var(--ink);outline-offset:2px}.timeline{border-left:2px solid #d7c2aa;margin:18px 0 0 10px;padding-left:20px}.event{position:relative;padding:0 0 20px}.event:before{content:"";position:absolute;left:-27px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--accent)}.notice{background:#f4eee5;border-left:3px solid #a77e5d;padding:12px 14px;font:12px/1.6 Arial;color:#62574b;margin:14px 0}
 @media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{min-height:0;padding:14px}.brand small{margin-bottom:13px}.navwrap{display:flex;overflow-x:auto;gap:3px}.nav{width:auto;white-space:nowrap;padding:9px}.sidebottom{display:none}.quick{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.main{padding:20px 15px}}@media(max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top{align-items:flex-start}.top-actions{max-width:145px}}
+
+/* Mobile-first usability and installable app support */
+html{min-height:100%;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{min-height:100dvh;overscroll-behavior-y:contain}
+button,.btn,.ghost,.nav,.entry{touch-action:manipulation}
+button,.btn,.ghost{min-height:42px}
+input,textarea,select{font-size:16px}
+.field{min-height:44px}
+textarea.field{min-height:110px}
+.panel{min-width:0}
+.main{min-width:0}
+.entry{overflow-wrap:anywhere}
+@media(max-width:900px){
+  .app{display:block;min-height:100dvh}
+  .sidebar{position:sticky;top:0;z-index:20;min-height:0;padding:10px 12px calc(10px + env(safe-area-inset-top));box-shadow:0 4px 14px #0002}
+  .brand{font-size:20px;letter-spacing:4px}
+  .brand small{font-size:8px;letter-spacing:2px;margin:3px 0 9px}
+  .navwrap{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:5px;padding:0 0 3px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  .nav{flex:0 0 auto;width:auto;min-height:42px;white-space:nowrap;padding:9px 12px;margin:0;font-size:13px}
+  .nav span{width:auto;margin-right:4px}
+  .main{padding:18px 14px calc(30px + env(safe-area-inset-bottom))}
+  .top{position:relative;gap:10px;margin-bottom:22px}
+  .top-actions{justify-content:flex-end}
+  .split{grid-template-columns:minmax(0,1fr);gap:12px}
+  #editpanel{scroll-margin-top:150px}
+}
+@media(max-width:600px){
+  .main{padding-left:12px;padding-right:12px}
+  .top{align-items:flex-start;flex-wrap:wrap}
+  .top>div:first-child{min-width:0;flex:1}
+  .top-actions{width:100%;max-width:none;justify-content:flex-start}
+  .top-actions button{flex:1}
+  h1{font-size:clamp(25px,7vw,33px);line-height:1.15}
+  h2{font-size:20px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .quick{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .panel{padding:14px;border-radius:8px}
+  .stat{font-size:26px}
+  .quick button{min-height:105px}
+  .row{align-items:stretch}
+  #category>.row:first-child{align-items:flex-start}
+  #category>.row:first-child>.btn{flex:0 0 auto}
+  .field{padding:11px}
+  .entry{padding:13px 5px;min-height:54px}
+  .entry>div{min-width:0}
+  .entry strong{overflow-wrap:anywhere}
+  .swatch{width:30px;height:30px}
+  .notice{font-size:12px}
+}
+@media(max-width:380px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .quick{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav{padding:8px 10px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+@media print{
+  .sidebar,.top-actions,#add,#save,#new,#delete{display:none!important}
+  .app{display:block}
+  .main{padding:0;max-width:none}
+  .panel{box-shadow:none;break-inside:avoid}
+}
+
 </style>
 </head>
 <body><div class="app">
@@ -59,4 +124,5 @@ function globalSearch(){var q=$('global-search').value.toLowerCase();var found=a
 $('global-search-btn').onclick=function(){nav('Szukaj')};$('global-search').oninput=globalSearch;document.querySelectorAll('.nav').forEach(function(b){b.onclick=function(){nav(b.dataset.page)}});
 $('export').onclick=function(){var payload={tytul:$('booktitle').value,opis:$('bookdesc').value,data:data,relacje:rels,kolory:colors,przynaleznosci:factions};var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='atelier-moja-ksiazka.json';a.click();URL.revokeObjectURL(a.href)};$('print').onclick=function(){window.print()};home();
 })();
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
 </script></body></html>
