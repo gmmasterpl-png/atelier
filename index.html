@@ -137,7 +137,6 @@ function renderTimeline(){var ev=data.Wydarzenia.slice().sort(function(a,b){retu
 function globalSearch(){var q=$('global-search').value.toLowerCase();var found=all().filter(function(x){return (x.cat+' '+x.values.join(' ')).toLowerCase().includes(q)});$('global-results').innerHTML=q?found.map(function(x){return '<div class="entry" data-open="'+x.cat+'" data-id="'+x.id+'"><div><strong>'+esc(x.values[0])+'</strong><div class="muted">'+x.cat+' · '+esc(x.values.slice(1).filter(Boolean).join(' · ').slice(0,130))+'</div></div>→</div>'}).join('')||'<div class="empty">Brak wyników.</div>':'<div class="muted">Wpisz szukaną frazę.</div>';$('global-results').querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){nav(b.dataset.open);load(b.dataset.id)}})}
 $('global-search-btn').onclick=function(){nav('Szukaj')};$('global-search').oninput=globalSearch;document.querySelectorAll('.nav').forEach(function(b){b.onclick=function(){nav(b.dataset.page)}});
 $('export').onclick=function(){var payload={tytul:$('booktitle').value,opis:$('bookdesc').value,data:data,relacje:rels,kolory:colors,przynaleznosci:factions};var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='atelier-moja-ksiazka.json';a.click();URL.revokeObjectURL(a.href)};$('print').onclick=function(){window.print()};home();
-})();
 
 /* Cloud sync: Supabase Auth + per-user RLS-protected Atelier records. */
 var cloudClient=null,cloudUser=null,cloudWorldId=null,cloudTimer=null,cloudBusy=false,cloudApplying=false,cloudReady=false,cloudChannel=null;
@@ -258,5 +257,6 @@ window.addEventListener('online',function(){if(cloudUser)cloudLoad(true);});
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&cloudUser&&!cloudBusy)cloudLoad(true);});
 
 cloudClientInit();
+})();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
 </script></body></html>
