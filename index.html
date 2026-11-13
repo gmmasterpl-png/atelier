@@ -239,8 +239,15 @@ async function cloudPush(){
     var old=await cloudClient.from('atelier_entries').select('id').eq('book_id',cloudWorldId);
     if(old.error)throw old.error;
     var keep=entries.map(function(x){return x.id;}),stale=(old.data||[]).map(function(x){return x.id;}).filter(function(id){return keep.indexOf(id)<0;});
-    if(stale.length){var del=await cloudClient.from('atelier_entries').delete().eq('book_id',cloudWorldId).in('id',stale);if(del.error)throw del.error;}
-    var relationRows=rels.map(function(r,i){return{id:r.id||('rel-'+i),book_id:cloudWorldId,a:r.a,b:r.b,relation_type:r.type,note:r.note||''};});
+    if(stale.length){
+      var preRelations=await cloudClient.from('atelier_app_relations').select('id').eq('book_id',cloudWorldId);
+      if(preRelations.error)throw preRelations.error;
+      var keepRelationIds=rels.map(function(r,i){return r.id||('rel-'+cloudWorldId+'-'+i);});
+      var obsoleteRelations=(preRelations.data||[]).map(function(r){return r.id;}).filter(function(id){return keepRelationIds.indexOf(id)<0;});
+      if(obsoleteRelations.length){var removeRelations=await cloudClient.from('atelier_app_relations').delete().eq('book_id',cloudWorldId).in('id',obsoleteRelations);if(removeRelations.error)throw removeRelations.error;}
+      var del=await cloudClient.from('atelier_entries').delete().eq('book_id',cloudWorldId).in('id',stale);if(del.error)throw del.error;
+    }
+    var relationRows=rels.map(function(r,i){return{id:r.id||('rel-'+cloudWorldId+'-'+i),book_id:cloudWorldId,a:r.a,b:r.b,relation_type:r.type,note:r.note||''};});
     if(relationRows.length){var ru=await cloudClient.from('atelier_app_relations').upsert(relationRows,{onConflict:'id'});if(ru.error)throw ru.error;}
     var oldR=await cloudClient.from('atelier_app_relations').select('id').eq('book_id',cloudWorldId);
     if(oldR.error)throw oldR.error;
