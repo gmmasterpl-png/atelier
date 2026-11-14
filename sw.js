@@ -1,4 +1,4 @@
-const CACHE = "atelier-shell-v7";
+const CACHE = "atelier-shell-v8";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
