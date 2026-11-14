@@ -195,8 +195,8 @@ async function cloudLogin(signup){
     if(result.error){
       var message=result.error.message||'Nieznany błąd';
       if(/rate limit|email rate limit|security purposes|too many requests/i.test(message)){
-        cloudSetEmailCooldown(60*60*1000);cloudUpdateResendButton();
-        message='Osiągnięto limit wysyłania wiadomości. Dla bezpieczeństwa zablokowałem ponawianie wysyłki na 60 minut. Nie klikaj ponownie — spróbuj później. Jeśli konto już istnieje i jest potwierdzone, użyj logowania.';
+        cloudSetEmailCooldown(5*1000);cloudUpdateResendButton();
+        message='Osiągnięto limit wysyłania wiadomości. Odczekaj 5 sekund przed kolejną próbą. Pamiętaj, że limit po stronie Supabase może obowiązywać dłużej.';
       }else if(/invalid login credentials/i.test(message))message='Nieprawidłowy e-mail lub hasło. Jeśli konto oczekuje na potwierdzenie, użyj najnowszego linku z poczty.';
       else if(/email not confirmed/i.test(message))message='Adres e-mail nie został jeszcze potwierdzony. Otwórz wiadomość od Supabase albo poczekaj, aż będzie można wysłać nowy link.';
       cloudMessage('Nie udało się: '+message);return;
