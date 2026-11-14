@@ -135,7 +135,7 @@ function label(id){var x=all().find(function(a){return a.id===id});return x?x.va
 function renderRelations(){
 var opts=all().map(function(x){return '<option value="'+esc(x.id)+'">'+esc(x.values[0])+' — '+x.cat+'</option>'}).join('');
 ['tree-parent','tree-child','rel-a','rel-b'].forEach(function(id){$(id).innerHTML='<option value="">Wybierz element…</option>'+opts;});
-function treeMeta(r){var m=(r.note||'').match(/^TREE\\|([^\\n]*)\\n?([\\s\\S]*)$/);return m?{name:m[1]||'Bez nazwy',note:m[2]||''}:null;}
+function treeMeta(r){var note=r.note||'';if(note.indexOf('TREE|')!==0)return null;var rest=note.slice(5),cut=rest.indexOf('\n');return{name:cut<0?(rest||'Bez nazwy'):(rest.slice(0,cut)||'Bez nazwy'),note:cut<0?'':rest.slice(cut+1)};}
 var treeRels=rels.map(function(r,i){return{r:r,i:i,m:treeMeta(r)}}).filter(function(x){return x.m;});
 var groups={};treeRels.forEach(function(x){(groups[x.m.name]||(groups[x.m.name]=[])).push(x);});
 function person(id){var x=all().find(function(a){return a.id===id});return x?x.values[0]+' ('+x.cat+')':'Usunięty element';}
@@ -152,8 +152,8 @@ $('rel-list').querySelectorAll('[data-delrel]').forEach(function(b){b.onclick=fu
 $('tree-add').onclick=function(){
 var name=$('tree-name').value.trim(),a=$('tree-parent').value,b=$('tree-child').value,note=$('tree-note').value.trim();
 if(!name||!a||!b||a===b)return alert('Podaj nazwę drzewa i wybierz dwie różne postacie.');
-if(rels.some(function(r){var m=(r.note||'').match(/^TREE\\|([^\\n]*)/);return m&&m[1]===name&&r.a===a&&r.b===b;}))return alert('Taka gałąź już istnieje.');
-rels.push({id:'tree-'+Date.now()+'-'+Math.random().toString(16).slice(2),a:a,b:b,type:'Rodzic → dziecko',note:'TREE|'+name+'\\n'+note});
+if(rels.some(function(r){var note=r.note||'';return note.indexOf('TREE|'+name+'\n')===0&&r.a===a&&r.b===b;))return alert('Taka gałąź już istnieje.');
+rels.push({id:'tree-'+Date.now()+'-'+Math.random().toString(16).slice(2),a:a,b:b,type:'Rodzic → dziecko',note:'TREE|'+name+'\n'+note});
 $('tree-note').value='';persist();renderRelations();
 };
 $('rel-add').onclick=function(){var a=$('rel-a').value,b=$('rel-b').value,type=$('rel-type').value.trim();if(!a||!b||a===b||!type)return alert('Wybierz dwa różne elementy i opisz relację.');rels.push({id:'rel-'+Date.now()+'-'+Math.random().toString(16).slice(2),a:a,b:b,type:type,note:$('rel-note').value.trim()});$('rel-type').value='';$('rel-note').value='';persist();renderRelations()};
