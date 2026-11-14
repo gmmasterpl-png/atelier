@@ -226,7 +226,7 @@ $('cloud-resend').onclick=async function(){
     if(/rate limit|email rate limit|security purposes|too many requests/i.test(error.message||'')){
       cloudMessage('Supabase: '+(error.message||'email rate limit exceeded')+'. To ograniczenie po stronie Supabase. Atelier nie nakłada własnej blokady czasowej.');
     }else cloudMessage('Nie udało się wysłać linku: '+(error.message||'Spróbuj później.'));
-  }finally{}
+  }finally{button.disabled=false;}
 };
 $('cloud-logout').onclick=async function(){var r=await cloudClient.auth.signOut();if(r.error)cloudMessage('Błąd wylogowania: '+r.error.message);};
 function cloudSubscribe(){
