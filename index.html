@@ -166,14 +166,35 @@ function cloudClientInit(){
   }).catch(function(error){cloudMessage('Błąd sesji: '+error.message)});
 }
 async function cloudLogin(signup){
-  var email=$('cloud-email').value.trim(),password=$('cloud-password').value;
+  if(!cloudClient){cloudMessage('Moduł logowania jeszcze się ładuje. Odśwież stronę i spróbuj ponownie.');return;}
+  var email=$('cloud-email').value.trim().toLowerCase(),password=$('cloud-password').value;
   if(!email||!password){cloudMessage('Wpisz adres e-mail i hasło.');return;}
   if(password.length<6){cloudMessage('Hasło musi mieć co najmniej 6 znaków.');return;}
-  cloudMessage(signup?'Tworzenie konta…':'Logowanie…');
-  var result=signup?await cloudClient.auth.signUp({email:email,password:password}):await cloudClient.auth.signInWithPassword({email:email,password:password});
-  if(result.error){cloudMessage('Nie udało się: '+result.error.message);return;}
-  if(signup&&!result.data.session){cloudMessage('Konto utworzone. Sprawdź pocztę i potwierdź adres e-mail, a następnie zaloguj się.');return;}
-  if(result.data.user){cloudSetAccount(result.data.user);cloudLoad(false);}
+  var loginButton=$('cloud-login'),signupButton=$('cloud-signup');
+  loginButton.disabled=true;signupButton.disabled=true;
+  cloudMessage(signup?'Tworzenie konta i wysyłanie wiadomości…':'Logowanie…');
+  try{
+    var redirectUrl='https://gmmasterpl-png.github.io/atelier/';
+    var result=signup
+      ?await cloudClient.auth.signUp({email:email,password:password,options:{emailRedirectTo:redirectUrl}})
+      :await cloudClient.auth.signInWithPassword({email:email,password:password});
+    if(result.error){
+      var message=result.error.message||'Nieznany błąd';
+      if(/rate limit|security purposes|too many requests/i.test(message))message='Supabase chwilowo ogranicza wysyłanie wiadomości. Odczekaj chwilę przed kolejną próbą.';
+      else if(/invalid login credentials/i.test(message))message='Nieprawidłowy e-mail lub hasło. Jeśli konto było właśnie tworzone, najpierw otwórz najnowszy link potwierdzający z poczty.';
+      else if(/email not confirmed/i.test(message))message='Adres e-mail nie został jeszcze potwierdzony. Otwórz najnowszą wiadomość od Supabase.';
+      cloudMessage('Nie udało się: '+message);return;
+    }
+    if(signup&&!result.data.session){
+      cloudMessage('Konto zostało utworzone. Otwórz najnowszą wiadomość od Supabase i kliknij link potwierdzający. Link powinien wrócić bezpośrednio do opublikowanego Atelier. Nie używaj starszych wiadomości.');
+      return;
+    }
+    if(result.data.user){cloudSetAccount(result.data.user);cloudMessage('Logowanie udane. Łączenie z chmurą…');await cloudLoad(false);}
+  }catch(error){
+    cloudMessage('Błąd połączenia z usługą logowania: '+(error&&error.message?error.message:'Spróbuj ponownie za chwilę.'));
+  }finally{
+    loginButton.disabled=false;signupButton.disabled=false;
+  }
 }
 $('cloud-login').onclick=function(){cloudLogin(false)};
 $('cloud-signup').onclick=function(){cloudLogin(true)};
