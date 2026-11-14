@@ -86,7 +86,7 @@ textarea.field{min-height:110px}
   <div id="cloud-auth-fields">
     <label>Adres e-mail</label><input class="field" id="cloud-email" type="email" autocomplete="email" placeholder="twoj@email.com">
     <label>Hasło</label><input class="field" id="cloud-password" type="password" autocomplete="current-password" placeholder="Minimum 6 znaków">
-    <div class="row" style="margin-top:13px"><button class="btn" id="cloud-login" type="button">Zaloguj się</button><button class="ghost" id="cloud-signup" type="button">Utwórz konto</button></div>
+    <div class="row" style="margin-top:13px"><button class="btn" id="cloud-login" type="button">Zaloguj się</button><button class="ghost" id="cloud-signup" type="button">Utwórz konto</button><button class="ghost" id="cloud-resend" type="button">Wyślij ponownie link</button></div>
   </div>
   <div id="cloud-account" class="hidden"><div class="notice" id="cloud-account-label"></div><button class="ghost danger" id="cloud-logout" type="button">Wyloguj</button><button class="ghost" id="cloud-now" type="button">Synchronizuj teraz</button></div>
   <p class="muted" id="cloud-message" role="status" aria-live="polite" style="margin-bottom:0">Dane lokalne pozostają dostępne również bez logowania.</p>
@@ -198,6 +198,19 @@ async function cloudLogin(signup){
 }
 $('cloud-login').onclick=function(){cloudLogin(false)};
 $('cloud-signup').onclick=function(){cloudLogin(true)};
+$('cloud-resend').onclick=async function(){
+  if(!cloudClient){cloudMessage('Moduł logowania jeszcze się ładuje.');return;}
+  var email=$('cloud-email').value.trim().toLowerCase();
+  if(!email){cloudMessage('Wpisz adres e-mail użyty podczas rejestracji.');return;}
+  $('cloud-resend').disabled=true;
+  cloudMessage('Wysyłanie nowego linku potwierdzającego…');
+  try{
+    var result=await cloudClient.auth.resend({type:'signup',email:email,options:{emailRedirectTo:'https://gmmasterpl-png.github.io/atelier/'}});
+    if(result.error)throw result.error;
+    cloudMessage('Jeśli konto oczekuje na potwierdzenie, wysłaliśmy nowy link. Użyj wyłącznie najnowszej wiadomości; poprzednie linki mogą być już nieważne.');
+  }catch(error){cloudMessage('Nie udało się wysłać linku: '+(error.message||'spróbuj później.'));}
+  finally{setTimeout(function(){$('cloud-resend').disabled=false;},30000);}
+};
 $('cloud-logout').onclick=async function(){var r=await cloudClient.auth.signOut();if(r.error)cloudMessage('Błąd wylogowania: '+r.error.message);};
 function cloudSubscribe(){
   if(cloudChannel)cloudClient.removeChannel(cloudChannel);
