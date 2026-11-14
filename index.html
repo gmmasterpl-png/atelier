@@ -165,20 +165,6 @@ function cloudClientInit(){
     else{cloudSetAccount(null);cloudMessage('Zaloguj się, aby synchronizować dane między urządzeniami.');}
   }).catch(function(error){cloudMessage('Błąd sesji: '+error.message)});
 }
-var CLOUD_EMAIL_COOLDOWN_KEY='atelier-email-send-cooldown-until';
-function cloudCooldownUntil(){try{return Number(localStorage.getItem(CLOUD_EMAIL_COOLDOWN_KEY)||0)}catch(e){return 0}}
-function cloudSetEmailCooldown(ms){try{localStorage.setItem(CLOUD_EMAIL_COOLDOWN_KEY,String(Date.now()+ms))}catch(e){}}
-function cloudEmailCooldownActive(){return cloudCooldownUntil()>Date.now()}
-function cloudCooldownMessage(){
-  var remaining=Math.max(1,Math.ceil((cloudCooldownUntil()-Date.now())/60000));
-  return 'Limit wiadomości e-mail został osiągnięty. Nie wysyłaj kolejnych próśb — spróbuj ponownie za około '+remaining+' min. Możesz zalogować się, jeśli konto zostało już potwierdzone.';
-}
-function cloudUpdateResendButton(){
-  var button=$('cloud-resend');if(!button)return;
-  var active=cloudEmailCooldownActive();
-  button.disabled=active;
-  button.title=active?cloudCooldownMessage():'';
-}
 async function cloudLogin(signup){
   if(!cloudClient){cloudMessage('Moduł logowania jeszcze się ładuje. Odśwież stronę i spróbuj ponownie.');return;}
   var email=$('cloud-email').value.trim().toLowerCase(),password=$('cloud-password').value;
@@ -195,8 +181,7 @@ async function cloudLogin(signup){
     if(result.error){
       var message=result.error.message||'Nieznany błąd';
       if(/rate limit|email rate limit|security purposes|too many requests/i.test(message)){
-        cloudSetEmailCooldown(5*1000);cloudUpdateResendButton();
-        message='Osiągnięto limit wysyłania wiadomości. Odczekaj 5 sekund przed kolejną próbą. Pamiętaj, że limit po stronie Supabase może obowiązywać dłużej.';
+        message='Supabase: '+message+'. To ograniczenie wysyłania wiadomości po stronie Supabase. Atelier nie nakłada własnej blokady czasowej.';
       }else if(/invalid login credentials/i.test(message))message='Nieprawidłowy e-mail lub hasło. Jeśli konto oczekuje na potwierdzenie, użyj najnowszego linku z poczty.';
       else if(/email not confirmed/i.test(message))message='Adres e-mail nie został jeszcze potwierdzony. Otwórz wiadomość od Supabase albo poczekaj, aż będzie można wysłać nowy link.';
       cloudMessage('Nie udało się: '+message);return;
@@ -215,14 +200,14 @@ async function cloudLogin(signup){
   }catch(error){
     cloudMessage('Błąd połączenia z usługą logowania: '+(error&&error.message?error.message:'Spróbuj ponownie za chwilę.'));
   }finally{
-    loginButton.disabled=false;signupButton.disabled=false;cloudUpdateResendButton();
+    loginButton.disabled=false;signupButton.disabled=false;
   }
 }
 $('cloud-login').onclick=function(){cloudLogin(false)};
 $('cloud-signup').onclick=function(){cloudLogin(true)};
 $('cloud-resend').onclick=async function(){
   if(!cloudClient){cloudMessage('Moduł logowania jeszcze się ładuje.');return;}
-  if(cloudEmailCooldownActive()){cloudMessage(cloudCooldownMessage());cloudUpdateResendButton();return;}
+  if(cloudEmailCooldownActive()){cloudMessage('Supabase: email rate limit exceeded. Usługa ograniczyła wysyłanie wiadomości. Spróbuj ponownie później.');return;}
   var email=$('cloud-email').value.trim().toLowerCase();
   if(!email){cloudMessage('Wpisz adres e-mail użyty podczas rejestracji.');return;}
   var button=$('cloud-resend');button.disabled=true;
@@ -233,9 +218,9 @@ $('cloud-resend').onclick=async function(){
     cloudMessage('Wysłano prośbę o link. Sprawdź pocztę i folder SPAM. Nie klikaj ponownie — poczekaj na wiadomość.');
   }catch(error){
     if(/rate limit|email rate limit|security purposes|too many requests/i.test(error.message||'')){
-      cloudSetEmailCooldown(60*60*1000);cloudMessage(cloudCooldownMessage());
+      cloudMessage('Supabase: '+(error.message||'email rate limit exceeded')+'. To ograniczenie po stronie Supabase. Atelier nie nakłada własnej blokady czasowej.');
     }else cloudMessage('Nie udało się wysłać linku: '+(error.message||'Spróbuj później.'));
-  }finally{cloudUpdateResendButton();}
+  }finally{}
 };
 $('cloud-logout').onclick=async function(){var r=await cloudClient.auth.signOut();if(r.error)cloudMessage('Błąd wylogowania: '+r.error.message);};
 function cloudSubscribe(){
@@ -324,7 +309,7 @@ window.addEventListener('online',function(){if(cloudUser)cloudLoad(true);});
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&cloudUser&&!cloudBusy)cloudLoad(true);});
 
 cloudClientInit();
-cloudUpdateResendButton();
+
 })();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
 </script></body></html>
