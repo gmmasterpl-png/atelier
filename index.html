@@ -152,7 +152,7 @@ $('rel-list').querySelectorAll('[data-delrel]').forEach(function(b){b.onclick=fu
 $('tree-add').onclick=function(){
 var name=$('tree-name').value.trim(),a=$('tree-parent').value,b=$('tree-child').value,note=$('tree-note').value.trim();
 if(!name||!a||!b||a===b)return alert('Podaj nazwę drzewa i wybierz dwie różne postacie.');
-if(rels.some(function(r){var note=r.note||'';return note.indexOf('TREE|'+name+'\n')===0&&r.a===a&&r.b===b;))return alert('Taka gałąź już istnieje.');
+if(rels.some(function(r){var note=r.note||'';return note.indexOf('TREE|'+name+'\n')===0&&r.a===a&&r.b===b;}))return alert('Taka gałąź już istnieje.');
 rels.push({id:'tree-'+Date.now()+'-'+Math.random().toString(16).slice(2),a:a,b:b,type:'Rodzic → dziecko',note:'TREE|'+name+'\n'+note});
 $('tree-note').value='';persist();renderRelations();
 };
