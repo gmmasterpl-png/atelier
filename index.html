@@ -189,7 +189,7 @@ var mapTool='select',mapLinePoints=[],mapDrag=null,mapZoom=100;
 var mapLevels={world:'Świat',continent:'Kontynent',region:'Region / kraina',city:'Miasto',village:'Wieś'};
 function activeMap(){return mapData.maps.find(function(m){return m.id===mapData.activeId})||null;}
 function ensureMap(){if(!mapData.maps.length){var m={id:'map-'+Date.now(),name:'Mapa świata',level:'world',parentId:null,parentMarkerId:null,markers:[],lines:[]};mapData.maps.push(m);mapData.activeId=m.id;}if(!activeMap())mapData.activeId=mapData.maps[0].id;}
-function mapSave(){persist();}\nfunction mapSafeText(v){return esc(v||'');}
+function mapSave(){persist();}
 function mapCoords(e){var r=$('map-stage').getBoundingClientRect();return{x:Math.max(0,Math.min(1000,(e.clientX-r.left)/r.width*1000)),y:Math.max(0,Math.min(650,(e.clientY-r.top)/r.height*650))};}
 function mapToolSet(tool){mapTool=tool;mapLinePoints=[];$('map-stage').classList.toggle('map-place-active',tool==='place');$('map-stage').classList.toggle('map-line-active',tool==='line');$('map-stage').classList.toggle('map-terrain-active',tool==='terrain');$('map-terrain-mode').classList.toggle('map-tool-active',tool==='terrain');$('map-place-mode').classList.toggle('map-tool-active',tool==='place');$('map-line-mode').classList.toggle('map-tool-active',tool==='line');$('map-line-finish').disabled=tool!=='line'||mapLinePoints.length<2;$('map-hint').textContent=tool==='place'?'Dotknij mapy, aby umieścić wybrany znacznik.':tool==='line'?'Klikaj kolejne punkty, aby narysować linię. Po zakończeniu wybierz „Zakończ linię”.':tool==='terrain'?'Dotykaj pól mapy, aby malować wybranym typem terenu.':'Wybierz narzędzie albo przeciągnij istniejący znacznik.';}
 function renderMaps(){
